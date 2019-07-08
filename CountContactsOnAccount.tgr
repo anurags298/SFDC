@@ -1,0 +1,17 @@
+trigger CountContactsOnAccount on Contact (after insert,after delete,after update) {
+    Set<Id> ConIdSet = new Set<Id>();
+    List<Account> AccList = new List<Account>();
+    List<Account> resacc = new List<Account>();
+    List<Contact> modContacts = Trigger.isDelete ? Trigger.old:Trigger.new;
+    for(Contact c:modContacts){
+        ConIdSet.add(c.AccountId);
+    }
+    system.debug('ConIdSet++'+ConIdSet);
+    AccList = [select Id,(select Id from contacts),Count_contact__c from Account  where id in :ConIdSet];
+    system.debug('AccList++'+AccList);
+    for(Account a: AccList){
+        a.Count_contact__c = a.contacts.size();
+        resacc.add(a);
+    }
+    update resacc;
+}
