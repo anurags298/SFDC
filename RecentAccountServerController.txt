@@ -1,0 +1,9 @@
+
+public class RecentAccountServerController {
+	@AuraEnabled
+    public static List<Account> GetAccounts(){
+        List<Account> accList= [select Id,name,Count_contact__c,Phone,Industry,(select LastName,name from contacts) from account ORDER BY createdDate DESC LIMIT 10];
+        
+        return accList;
+    }
+}

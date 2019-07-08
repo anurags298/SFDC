@@ -1,0 +1,30 @@
+<aura:component controller = "RecentAccountServerController">
+    <aura:attribute name="accountList" type="Object[]"/>
+    <aura:handler name= "init" value = "{!this}" action="{!c.doInit}"/>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+    	<thead>
+        	<tr class="slds-line-height_reset">
+            	<th>Account Name</th>
+                <th>Number Of Contacts</th>
+                <th>Related Contact</th>
+                <th>Phone</th>
+                <th>Industry</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<aura:iteration items="{!v.accountList}" var = "acc">
+            	<tr>
+                	<td>{!acc.Name}</td>
+                    <td>{!acc.Count_contact__c}</td>
+                    <td>
+                    	<aura:iteration items = "{!acc.Contacts}" var = "con">
+                        	 <tr>{!con.LastName}</tr>
+                        </aura:iteration>
+                    </td>
+                    <td>{!acc.Phone}</td>
+                    <td>{!acc.Industry}</td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+</aura:component>
